@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import TvPageTemplate from "../components/templateTvPage";
 import SiteHeaderTv from "../components/siteHeaderTv";
-import { useNavigate } from "react-router-dom";
 import { getTvSeason } from "../api/tmdb-api";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,17 +16,6 @@ import Spinner from '../components/spinner';
 const TvEpisodesPage = (props) => {
   let location = useLocation();
   const {tv, season} = location.state;
-  const [user, setUser] = useState({});
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("user");
-    if (loggedIn) {
-      const foundUser = JSON.parse(loggedIn);
-      setUser(foundUser);
-    }
-    else navigate("/login");
-  }, [navigate]);
 
   const { data, error, isLoading, isError } = useQuery(
     ["episodes", {id: tv.id, sid: season.season_number}],

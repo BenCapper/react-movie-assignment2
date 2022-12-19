@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { useParams } from 'react-router-dom';
 import TvDetails from "../components/tvDetails/";
 import TvPageTemplate from "../components/templateTvPage";
@@ -6,21 +6,9 @@ import { getTv } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
 import SiteHeaderTv from "../components/siteHeaderTv";
-import { useNavigate } from "react-router-dom";
 
 const TvDetailsPage = (props) => {
   const { id } = useParams();
-  const [user, setUser] = useState({});
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("user");
-    if (loggedIn) {
-      const foundUser = JSON.parse(loggedIn);
-      setUser(foundUser);
-    }
-    else navigate("/login");
-  }, [navigate]);
 
   const { data: tv, error, isLoading, isError } = useQuery(
     ["tv", { id: id }],

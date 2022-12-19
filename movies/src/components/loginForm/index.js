@@ -43,7 +43,6 @@ const styles = {
 };
 
 const LoginForm = () => {
-  const [user, setUser] = useState({});
   const [fbCode, setFbCode] = useState("")
   const navigate = useNavigate();
   const auth = getAuth();
@@ -75,7 +74,6 @@ const LoginForm = () => {
       // Signed in 
       const user = userCredential.user;
       console.log(user, values.email, values.password)
-      setUser(user)
       localStorage.setItem("user", JSON.stringify(user))
       navigate("/movies")
     })
@@ -92,7 +90,6 @@ const LoginForm = () => {
         // Signed in 
         const user = userCredential.user;
         console.log(values.email, values.password)
-        setUser(user);
         localStorage.setItem("user", JSON.stringify(user))
         navigate("/movies")
       })
