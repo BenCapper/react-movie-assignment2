@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -7,39 +7,25 @@ import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { getAuth, signOut } from "firebase/auth";
+import { AuthContext } from "../../contexts/authContext";
+import { useNavigate } from "react-router-dom";
 
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = ({ history }) => {
-  const [user, setUser] = useState({});
+  const context = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const auth = getAuth();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("user");
-    if (loggedIn) {
-      const foundUser = JSON.parse(loggedIn);
-      setUser(foundUser);
-    }
-  }, []);
-
   const navigate = useNavigate();
+
   const sign = () => {
-    signOut(auth).then(() => {
-        localStorage.clear()
-        setUser()
-      }).catch((error) => {
-        console.log(error)
-      });
+    context.signout();
   };
 
   const menuOptions = [
@@ -74,9 +60,6 @@ const SiteHeader = ({ history }) => {
           </Typography>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             All you ever wanted to know about Movies!
-          </Typography>
-          <Typography variant="h6" sx={{ flexGrow: 1, mr: 1 }}>
-            {user?.email}
           </Typography>
             {isMobile ? (
               <>
