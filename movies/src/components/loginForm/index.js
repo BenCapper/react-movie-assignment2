@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { auth } from "../../firebase-config";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { AuthContext } from '../../contexts/authContext';
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -43,12 +43,9 @@ const styles = {
 };
 
 const LoginForm = () => {
-  const [fbCode, setFbCode] = useState("")
-  const navigate = useNavigate();
-  const auth = getAuth();
-  
+  const context = useContext(AuthContext);
   const [values, setValues] = React.useState({
-      email: '',
+      userName: '',
       password: '',
       showPassword: false,
     });
@@ -69,52 +66,28 @@ const LoginForm = () => {
   };
 
   const login = () => {
-    signInWithEmailAndPassword(auth, values.email, values.password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      console.log(user, values.email, values.password)
-      localStorage.setItem("user", JSON.stringify(user))
-      navigate("/movies")
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      console.log(errorCode)
-      errorCheck(errorCode)
-    });
+    context.authenticate(values.userName, values.password);
   };
 
   const register = () => {
-      createUserWithEmailAndPassword(auth, values.email, values.password)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        console.log(values.email, values.password)
-        localStorage.setItem("user", JSON.stringify(user))
-        navigate("/movies")
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        console.log(errorCode)
-        errorCheck(errorCode)
-      });
-    };
+    let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/;
+    const validPassword = passwordRegEx.test(values.password);
 
-
-  const errorCheck = (errorCode) => {
-    if (errorCode === "auth/email-already-in-use"){
-      setFbCode("Account Already Exists");
-    } 
-    if (errorCode === "auth/invalid-email") {
-      setFbCode("Invalid Email Address");
-    } 
-    if (errorCode === "auth/missing-email") {
-      setFbCode("Enter an Email Address");
-    } 
-    if (errorCode === "auth/internal-error") {
-      setFbCode("Invalid Password");
+    if (validPassword) {
+      context.register(values.userName, values.password);
+      login();
     }
   }
+
+  let location = useLocation();
+
+  // Set 'from' to path where browser is redirected after a successful login - either / or the protected path user requested
+  const { from } = location.state ? { from: location.state.from.pathname } : { from: "/movies" };
+
+  if (context.isAuthenticated === true) {
+    return <Navigate to={from} />;
+  }
+
 
   return (
     <>
@@ -132,8 +105,8 @@ const LoginForm = () => {
           id="outlined-required"
           label="Email"
           placeholder="Email"
-          value={values.email}
-          onChange={handleChange('email')}
+          value={values.userName}
+          onChange={handleChange('userName')}
         />
         </FormControl>
     <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
@@ -161,9 +134,6 @@ const LoginForm = () => {
         label="Password"
       />
     </FormControl>
-      <Typography sx={styles.err}>
-        {fbCode}
-      </Typography>
     <FormControl sx={{ m: 1, mt: 5, width: '25ch' }} variant="outlined">
       <Button variant="contained" onClick={register}>Create Account</Button>
     </FormControl>

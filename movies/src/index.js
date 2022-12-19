@@ -1,6 +1,7 @@
 import React from "react";
 import * as ReactDOM from "react-dom/client";
 import MoviesContextProvider from "./contexts/moviesContext";
+import AuthProvider from "./contexts/authContext";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import HomePage from "./pages/homePage";
 import UpcomingPage from "./pages/upcomingMoviesPage";
@@ -40,6 +41,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+      <AuthProvider>
         <MoviesContextProvider>
           <TvContextProvider>
             <Routes>
@@ -66,6 +68,7 @@ const App = () => {
             </Routes>
           </TvContextProvider>
         </MoviesContextProvider>
+        </AuthProvider>
       </BrowserRouter>
     <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
