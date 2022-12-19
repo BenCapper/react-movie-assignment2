@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { getMovies } from "../api/tmdb-api";
 import PageTemplate from '../components/templateMovieListPage';
 import { useQuery } from 'react-query';
@@ -7,36 +7,21 @@ import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 import { Stack } from "@mui/material";
 import { Pagination } from "@mui/material";
 import SiteHeader from "../components/siteHeader";
-
+import { MoviesContext } from '../contexts/moviesContext';
 
 
 const HomePage = (props) => {
+  const context = useContext(MoviesContext);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const {
-    isLoading,
-    isError,
-    error,
-    data,
-  } = useQuery({
-    queryKey: ['movies', pageNumber],
-    queryFn: () => getMovies(pageNumber),
-    keepPreviousData : true
-  })
 
   const handleChange = (event, value) => {
     setPageNumber(value);
     window.scrollTo(0,0)
   }
 
-  if (isLoading) {
-    return <Spinner />
-  }
-
-  if (isError) {
-    return <h1>{error.message}</h1>
-  }  
-  const movies = data.results;
+ 
+  const movies = context.movies;
 
   // Redundant, but necessary to avoid app crashing.
   const favorites = movies.filter(m => m.favorite)

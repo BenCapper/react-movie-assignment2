@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import React, { createContext, useEffect, useReducer, useContext, useState } from "react";
+import { AuthContext } from '../contexts/authContext';
+import { getMovies } from "../api/tmdb-api";
 
-export const MoviesContext = React.createContext(null);
+export const MoviesContext = createContext(null);
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "load":
+      return { movies: action.payload.result };
+    default:
+      return state;
+  }
+};
 
 const MoviesContextProvider = (props) => {
-  const [favorites, setFavorites] = useState( [] )
-  const [mustWatch, setMustWatch] = useState( [] )
-  const [myReviews, setMyReviews] = useState( {} ) 
+  const context = useContext(AuthContext);
+  const [favorites, setFavorites] = useState( [] );
+  const [mustWatch, setMustWatch] = useState( [] );
+  const [myReviews, setMyReviews] = useState( {} );
+  const [state, dispatch] = useReducer(reducer, { movies: []}); 
+
+  useEffect(() => {
+    getMovies().then(result => {
+      dispatch({ type: "load", payload: {result}});
+    });
+  },[context.isAuthenticated]);
 
   const addToFavorites = (movie) => {
     let newFavorites = [];
@@ -44,6 +63,7 @@ const MoviesContextProvider = (props) => {
   return (
     <MoviesContext.Provider
       value={{
+        movies: state.movies,
         favorites,
         mustWatch,
         addToFavorites,
