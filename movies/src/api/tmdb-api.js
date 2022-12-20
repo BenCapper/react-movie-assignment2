@@ -109,19 +109,19 @@ export const getTv = (args) => {
 //   });
 // };
 
-export const getTrendingMovies = ( page ) => {
-  return fetch(
-    `https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(response.json().message);
-    }
-    return response.json();
-  })
-  .catch((error) => {
-     throw error
-  });
-};
+// export const getTrendingMovies = ( page ) => {
+//   return fetch(
+//     `https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
+//   ).then((response) => {
+//     if (!response.ok) {
+//       throw new Error(response.json().message);
+//     }
+//     return response.json();
+//   })
+//   .catch((error) => {
+//      throw error
+//   });
+// };
 
 export const getTrendingTv = ( page ) => {
   return fetch(
@@ -329,6 +329,20 @@ export const getMovies = () => {
 export const getUpcomingMovies = () => {
   return fetch(
      `/api/movies/tmdb/upcoming`, {
+          headers: {
+              'Authorization': window.localStorage.getItem('token')
+          }
+      }
+  ).then(res => {
+      return res.json();
+  }).catch((error) => {
+      console.log(error);
+  });
+};
+
+export const getTrendingMovies = () => {
+  return fetch(
+     `/api/movies/tmdb/trending`, {
           headers: {
               'Authorization': window.localStorage.getItem('token')
           }

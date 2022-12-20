@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import { getTrendingMovies} from "../api/tmdb-api";
+import React from "react";
+import { getTrendingMovies } from "../api/tmdb-api";
 import PageTemplate from '../components/templateMovieListPage'
 import Spinner from '../components/spinner';
 import PlaylistAddIcon from '../components/cardIcons/addToMustWatch';
 import { useQuery } from 'react-query';
-import { Stack } from "@mui/material";
-import { Pagination } from "@mui/material";
 import SiteHeader from "../components/siteHeader";
 
 
 const TrendingPage = (props) => {
-  const [pageNumber, setPageNumber] = useState(1);
 
   const {
     isLoading,
@@ -18,15 +15,11 @@ const TrendingPage = (props) => {
     error,
     data,
   } = useQuery({
-    queryKey: ['upcoming', pageNumber],
-    queryFn: () => getTrendingMovies(pageNumber),
-    keepPreviousData : true
+    queryKey: ['trending'],
+    queryFn: () => getTrendingMovies()
   })
 
-  const handleChange = (event, value) => {
-    setPageNumber(value);
-    window.scrollTo(0,0)
-  } 
+
   if (isLoading) {
     return <Spinner />
   }
@@ -51,9 +44,6 @@ const TrendingPage = (props) => {
         return <PlaylistAddIcon movie={movie} />
       }}
     />
-    <Stack alignItems="center">
-      <Pagination color='primary' count={10} page={pageNumber} onChange={handleChange} />
-    </Stack>
     </>
 );
 };
