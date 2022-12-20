@@ -15,9 +15,8 @@ export default function TvReviews({ tv }) {
 
   useEffect(() => {
     getTvReviews(tv.id).then((reviews) => {
-      setReviews(reviews);
+      setReviews(reviews.results);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

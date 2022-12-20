@@ -225,16 +225,16 @@
 //     });
 // };
 
-export const getTvReviews = (id) => {
-  return fetch(
-    `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${process.env.REACT_APP_TMDB_KEY}`
-  )
-    .then((res) => res.json())
-    .then((json) => {
-      // console.log(json.results);
-      return json.results;
-    });
-};
+// export const getTvReviews = (id) => {
+//   return fetch(
+//     `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${process.env.REACT_APP_TMDB_KEY}`
+//   )
+//     .then((res) => res.json())
+//     .then((json) => {
+//       // console.log(json.results);
+//       return json.results;
+//     });
+// };
 
 
 export const getTvSeason = (args) => {
@@ -530,9 +530,22 @@ export const getTvImages = (args) => {
 };
 
 export const getMovieReviews = (id) => {
-
   return fetch(
     `/api/movies/${id}/reviews`, {
+         headers: {
+             'Authorization': window.localStorage.getItem('token')
+         }
+     }
+ ).then(res => {
+     return res.json();
+ }).catch((error) => {
+     console.log(error);
+ });
+};
+
+export const getTvReviews = (id) => {
+  return fetch(
+    `/api/tv/${id}/reviews`, {
          headers: {
              'Authorization': window.localStorage.getItem('token')
          }
