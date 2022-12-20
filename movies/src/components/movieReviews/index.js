@@ -15,7 +15,7 @@ export default function MovieReviews({ movie }) {
 
   useEffect(() => {
     getMovieReviews(movie.id).then((reviews) => {
-      setReviews(reviews);
+      setReviews(reviews.results);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

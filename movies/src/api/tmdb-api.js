@@ -214,16 +214,16 @@
 //  });
 // };
 
-export const getMovieReviews = (id) => {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.REACT_APP_TMDB_KEY}`
-  )
-    .then((res) => res.json())
-    .then((json) => {
-      // console.log(json.results);
-      return json.results;
-    });
-};
+// export const getMovieReviews = (id) => {
+//   return fetch(
+//     `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.REACT_APP_TMDB_KEY}`
+//   )
+//     .then((res) => res.json())
+//     .then((json) => {
+//       // console.log(json.results);
+//       return json.results;
+//     });
+// };
 
 export const getTvReviews = (id) => {
   return fetch(
@@ -497,6 +497,7 @@ export const getTvGenres = () => {
 };
 
 export const getMovieImages = (args) => {
+  console.log(args)
   const [, idPart] = args.queryKey;
   const { id } = idPart;
   return fetch(
@@ -517,6 +518,21 @@ export const getTvImages = (args) => {
   const { id } = idPart;
   return fetch(
     `/api/tv/${id}/images`, {
+         headers: {
+             'Authorization': window.localStorage.getItem('token')
+         }
+     }
+ ).then(res => {
+     return res.json();
+ }).catch((error) => {
+     console.log(error);
+ });
+};
+
+export const getMovieReviews = (id) => {
+
+  return fetch(
+    `/api/movies/${id}/reviews`, {
          headers: {
              'Authorization': window.localStorage.getItem('token')
          }

@@ -2,7 +2,7 @@ import uniqid from 'uniqid';
 import express from 'express';
 import tvModel from './tvModel';
 import asyncHandler from 'express-async-handler';
-import { getTopTv, getTrendingTv, getTv, getTvImages } from '../tmdb-api';
+import { getMovieReviews, getTopTv, getTrendingTv, getTv, getTvImages } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -74,5 +74,6 @@ router.get('/:id/images', asyncHandler(async (req, res) => {
         res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
     }
 }));
+
 
 export default router;
