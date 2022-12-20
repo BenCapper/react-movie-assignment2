@@ -69,3 +69,17 @@ export const getMovie = ( id ) => {
             throw error
         });
 };
+
+export const getTv = ( id ) => {
+    return fetch(
+        `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false`
+    ).then((response) => {
+        if (!response.ok) {
+            throw new Error(response.json().message);
+        }
+        return response.json();
+    })
+        .catch((error) => {
+            throw error
+        });
+};

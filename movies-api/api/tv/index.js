@@ -2,7 +2,7 @@ import uniqid from 'uniqid';
 import express from 'express';
 import tvModel from './tvModel';
 import asyncHandler from 'express-async-handler';
-import { getTopTv, getTrendingTv } from '../tmdb-api';
+import { getTopTv, getTrendingTv, getTv } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -15,7 +15,7 @@ router.get('/', asyncHandler(async (req, res) => {
 // Get tv details
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
-    const tv = await tvModel.findByTvDBId(id);
+    const tv = await getTv(id);
     if (tv) {
         res.status(200).json(tv);
     } else {
