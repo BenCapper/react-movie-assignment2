@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getUpcoming } from "../api/tmdb-api";
+import { getUpcomingMovies } from "../api/tmdb-api";
 import PageTemplate from '../components/templateMovieListPage'
 import Spinner from '../components/spinner';
 import PlaylistAddIcon from '../components/cardIcons/addToMustWatch';
@@ -18,15 +18,11 @@ const UpcomingPage = (props) => {
     error,
     data,
   } = useQuery({
-    queryKey: ['upcoming', pageNumber],
-    queryFn: () => getUpcoming(pageNumber),
-    keepPreviousData : true
+    queryKey: ['upcoming'],
+    queryFn: () => getUpcomingMovies(),
   })
 
-  const handleChange = (event, value) => {
-    setPageNumber(value);
-    window.scrollTo(0,0)
-  } 
+
   if (isLoading) {
     return <Spinner />
   }
@@ -51,9 +47,6 @@ const UpcomingPage = (props) => {
         return <PlaylistAddIcon movie={movie} />
       }}
     />
-    <Stack alignItems="center">
-      <Pagination color='primary' count={10} page={pageNumber} onChange={handleChange} />
-    </Stack>
     </>
 );
 };
