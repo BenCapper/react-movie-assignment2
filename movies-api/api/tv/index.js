@@ -2,7 +2,7 @@ import uniqid from 'uniqid';
 import express from 'express';
 import tvModel from './tvModel';
 import asyncHandler from 'express-async-handler';
-import { getUpcomingTv } from '../tmdb-api';
+import { getTopTv, getTrendingTv } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -55,9 +55,14 @@ router.post('/:id/reviews', (req, res) => {
     }
 });
 
-// router.get('/tmdb/upcoming', asyncHandler( async(req, res) => {
-//     const upcomingTv = await getUpcomingTv();
-//     res.status(200).json(upcomingTv);
-//   }));
+router.get('/tmdb/top', asyncHandler( async(req, res) => {
+     const topTv = await getTopTv();
+     res.status(200).json(topTv);
+}));
+
+router.get('/tmdb/trending', asyncHandler( async(req, res) => {
+    const trendingTv = await getTrendingTv();
+    res.status(200).json(trendingTv);
+}));
 
 export default router;

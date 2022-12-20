@@ -123,34 +123,34 @@ export const getTv = (args) => {
 //   });
 // };
 
-export const getTrendingTv = ( page ) => {
-  return fetch(
-    `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(response.json().message);
-    }
-    return response.json();
-  })
-  .catch((error) => {
-     throw error
-  });
-};
+// export const getTrendingTv = ( page ) => {
+//   return fetch(
+//     `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
+//   ).then((response) => {
+//     if (!response.ok) {
+//       throw new Error(response.json().message);
+//     }
+//     return response.json();
+//   })
+//   .catch((error) => {
+//      throw error
+//   });
+// };
 
 
-export const getTopTv = ( page ) => {
-  return fetch(
-    `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(response.json().message);
-    }
-    return response.json();
-  })
-  .catch((error) => {
-     throw error
-  });
-};
+// export const getTopTv = ( page ) => {
+//   return fetch(
+//     `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
+//   ).then((response) => {
+//     if (!response.ok) {
+//       throw new Error(response.json().message);
+//     }
+//     return response.json();
+//   })
+//   .catch((error) => {
+//      throw error
+//   });
+// };
 
 export const getGenres = async () => {
   return fetch(
@@ -357,6 +357,34 @@ export const getUpcomingMovies = () => {
 export const getTrendingMovies = () => {
   return fetch(
      `/api/movies/tmdb/trending`, {
+          headers: {
+              'Authorization': window.localStorage.getItem('token')
+          }
+      }
+  ).then(res => {
+      return res.json();
+  }).catch((error) => {
+      console.log(error);
+  });
+};
+
+export const getTrendingTv = () => {
+  return fetch(
+     `/api/tv/tmdb/trending`, {
+          headers: {
+              'Authorization': window.localStorage.getItem('token')
+          }
+      }
+  ).then(res => {
+      return res.json();
+  }).catch((error) => {
+      console.log(error);
+  });
+};
+
+export const getTopTv = () => {
+  return fetch(
+     `/api/tv/tmdb/top`, {
           headers: {
               'Authorization': window.localStorage.getItem('token')
           }

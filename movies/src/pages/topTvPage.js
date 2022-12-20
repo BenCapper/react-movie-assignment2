@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { getTopTv } from "../api/tmdb-api";
 import TvPageTemplate from '../components/templateTvListPage'
 import Spinner from '../components/spinner';
 import PlaylistAddIcon from '../components/cardIcons/addToMustWatchTv';
 import { useQuery } from 'react-query';
-import { Stack } from "@mui/material";
-import { Pagination } from "@mui/material";
 import SiteHeaderTv from "../components/siteHeaderTv";
 
 
 const TvTopPage = (props) => {
-  const [pageNumber, setPageNumber] = useState(1);
 
   const {
     isLoading,
@@ -18,15 +15,10 @@ const TvTopPage = (props) => {
     error,
     data,
   } = useQuery({
-    queryKey: ['topTv', pageNumber],
-    queryFn: () => getTopTv(pageNumber),
-    keepPreviousData : true
+    queryKey: ['topTv'],
+    queryFn: () => getTopTv()
   })
 
-  const handleChange = (event, value) => {
-    setPageNumber(value);
-    window.scrollTo(0,0)
-  }
 
   if (isLoading) {
     return <Spinner />
@@ -52,9 +44,6 @@ const TvTopPage = (props) => {
         return <PlaylistAddIcon tv={tv} />
       }}
     />
-    <Stack alignItems="center">
-      <Pagination color='primary' count={10} page={pageNumber} onChange={handleChange} />
-    </Stack>
     </>
 );
 };

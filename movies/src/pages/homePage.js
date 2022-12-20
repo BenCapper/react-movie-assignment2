@@ -1,11 +1,6 @@
-import React, { useState, useContext } from "react";
-import { getMovies } from "../api/tmdb-api";
+import React, { useContext } from "react";
 import PageTemplate from '../components/templateMovieListPage';
-import { useQuery } from 'react-query';
-import Spinner from '../components/spinner';
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
-import { Stack } from "@mui/material";
-import { Pagination } from "@mui/material";
 import SiteHeader from "../components/siteHeader";
 import { MoviesContext } from '../contexts/moviesContext';
 
