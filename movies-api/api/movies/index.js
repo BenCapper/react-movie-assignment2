@@ -2,7 +2,7 @@ import uniqid from 'uniqid';
 import express from 'express';
 import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
-import { getUpcomingMovies, getTrendingMovies, getMovie, getSimilarMovies } from '../tmdb-api';
+import { getUpcomingMovies, getTrendingMovies, getMovie, getSimilarMovies, getCompany } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -84,5 +84,7 @@ router.get('/:id/similar', asyncHandler(async (req, res) => {
         res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
     }
 }));
+
+
 
 export default router;

@@ -69,6 +69,7 @@ const MovieDetails = ({ movie }) => {
     if (data.homepage) window.open(data.homepage, '_blank');
   }
 
+  console.log(data)
 
 
   return (
