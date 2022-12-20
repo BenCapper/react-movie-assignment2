@@ -2,7 +2,7 @@ import uniqid from 'uniqid';
 import express from 'express';
 import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
-import { getUpcomingMovies, getTrendingMovies, getMovie, getSimilarMovies, getCompany } from '../tmdb-api';
+import { getUpcomingMovies, getTrendingMovies, getMovie, getSimilarMovies, getMovieImages } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -80,6 +80,16 @@ router.get('/:id/similar', asyncHandler(async (req, res) => {
     const similar = await getSimilarMovies(id);
     if (similar) {
         res.status(200).json(similar);
+    } else {
+        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
+    }
+}));
+
+router.get('/:id/images', asyncHandler(async (req, res) => {
+    const id = parseInt(req.params.id);
+    const images = await getMovieImages(id);
+    if (images) {
+        res.status(200).json(images);
     } else {
         res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
     }

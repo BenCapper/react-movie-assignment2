@@ -180,22 +180,22 @@
 //  });
 // };
 
-export const getMovieImages = ({ queryKey }) => {
-  const [, idPart] = queryKey;
-  const { id } = idPart;
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
-  ).then( (response) => {
-    if (!response.ok) {
-      throw new Error(response.json().message);
-    }
-    return response.json();
+// export const getMovieImages = ({ queryKey }) => {
+//   const [, idPart] = queryKey;
+//   const { id } = idPart;
+//   return fetch(
+//     `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.REACT_APP_TMDB_KEY}`
+//   ).then( (response) => {
+//     if (!response.ok) {
+//       throw new Error(response.json().message);
+//     }
+//     return response.json();
 
-  })
-  .catch((error) => {
-    throw error
- });
-};
+//   })
+//   .catch((error) => {
+//     throw error
+//  });
+// };
 
 export const getTvImages = ({ queryKey }) => {
   const [, idPart] = queryKey;
@@ -485,6 +485,22 @@ export const getGenres = () => {
 export const getTvGenres = () => {
   return fetch(
     `/api/genres/tv`, {
+         headers: {
+             'Authorization': window.localStorage.getItem('token')
+         }
+     }
+ ).then(res => {
+     return res.json();
+ }).catch((error) => {
+     console.log(error);
+ });
+};
+
+export const getMovieImages = (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+  return fetch(
+    `/api/movies/${id}/images`, {
          headers: {
              'Authorization': window.localStorage.getItem('token')
          }
