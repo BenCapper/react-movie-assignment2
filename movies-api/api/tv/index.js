@@ -2,7 +2,7 @@ import uniqid from 'uniqid';
 import express from 'express';
 import tvModel from './tvModel';
 import asyncHandler from 'express-async-handler';
-import { getTopTv, getTrendingTv, getTv } from '../tmdb-api';
+import { getTopTv, getTrendingTv, getTv, getTvImages } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -63,6 +63,16 @@ router.get('/tmdb/top', asyncHandler( async(req, res) => {
 router.get('/tmdb/trending', asyncHandler( async(req, res) => {
     const trendingTv = await getTrendingTv();
     res.status(200).json(trendingTv);
+}));
+
+router.get('/:id/images', asyncHandler(async (req, res) => {
+    const id = parseInt(req.params.id);
+    const images = await getTvImages(id);
+    if (images) {
+        res.status(200).json(images);
+    } else {
+        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
+    }
 }));
 
 export default router;
