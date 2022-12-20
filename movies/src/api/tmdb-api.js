@@ -26,22 +26,22 @@
 //   });
 // };
   
-export const getMovie = (args) => {
-  //console.log(args)
-  const [, idPart] = args.queryKey;
-  const { id } = idPart;
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false`
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(response.json().message);
-    }
-    return response.json();
-  })
-  .catch((error) => {
-    throw error
- });
-};
+// export const getMovie = (args) => {
+//   //console.log(args)
+//   const [, idPart] = args.queryKey;
+//   const { id } = idPart;
+//   return fetch(
+//     `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&include_video=false`
+//   ).then((response) => {
+//     if (!response.ok) {
+//       throw new Error(response.json().message);
+//     }
+//     return response.json();
+//   })
+//   .catch((error) => {
+//     throw error
+//  });
+// };
 
 export const getSimilarMovies = (args) => {
   //console.log(args)
@@ -394,4 +394,20 @@ export const getTopTv = () => {
   }).catch((error) => {
       console.log(error);
   });
+};
+
+export const getMovie = (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+  return fetch(
+    `/api/movies/${id}`, {
+         headers: {
+             'Authorization': window.localStorage.getItem('token')
+         }
+     }
+ ).then(res => {
+     return res.json();
+ }).catch((error) => {
+     console.log(error);
+ });
 };

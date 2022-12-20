@@ -2,7 +2,7 @@ import uniqid from 'uniqid';
 import express from 'express';
 import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
-import { getUpcomingMovies, getTrendingMovies } from '../tmdb-api';
+import { getUpcomingMovies, getTrendingMovies, getMovie } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -15,7 +15,7 @@ router.get('/', asyncHandler(async (req, res) => {
 // Get movie details
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
-    const movie = await movieModel.findByMovieDBId(id);
+    const movie = await getMovie(id);
     if (movie) {
         res.status(200).json(movie);
     } else {
