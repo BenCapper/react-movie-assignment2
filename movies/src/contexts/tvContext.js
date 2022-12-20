@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import React, { createContext, useEffect, useReducer, useContext, useState } from "react";
+import { AuthContext } from '../contexts/authContext';
+import { getAllTv } from "../api/tmdb-api";
 
-export const TvContext = React.createContext(null);
+export const TvContext = createContext(null);
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "load":
+      return { tv: action.payload.result };
+    default:
+      return state;
+  }
+};
 
 const TvContextProvider = (props) => {
-  const [favorites, setFavorites] = useState( [] )
-  const [mustWatch, setMustWatch] = useState( [] )
-  const [myReviews, setMyReviews] = useState( {} ) 
+  const context = useContext(AuthContext);
+  const [favorites, setFavorites] = useState( [] );
+  const [mustWatch, setMustWatch] = useState( [] );
+  const [myReviews, setMyReviews] = useState( {} );
+  const [state, dispatch] = useReducer(reducer, { tv: []}); 
+
+  useEffect(() => {
+    getAllTv().then(result => {
+      dispatch({ type: "load", payload: {result}});
+    });
+  },[context.isAuthenticated]); 
 
   const addToFavorites = (tv) => {
     let newFavorites = [];
@@ -44,6 +63,7 @@ const TvContextProvider = (props) => {
   return (
     <TvContext.Provider
       value={{
+        tv: state.tv,
         favorites,
         mustWatch,
         addToFavorites,

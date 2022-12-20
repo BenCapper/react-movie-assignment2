@@ -12,14 +12,6 @@ import { MoviesContext } from '../contexts/moviesContext';
 
 const HomePage = (props) => {
   const context = useContext(MoviesContext);
-  const [pageNumber, setPageNumber] = useState(1);
-
-
-  const handleChange = (event, value) => {
-    setPageNumber(value);
-    window.scrollTo(0,0)
-  }
-
  
   const movies = context.movies;
 
@@ -37,9 +29,6 @@ const HomePage = (props) => {
         return <AddToFavoritesIcon movie={movie} />
       }}
     />
-    <Stack alignItems="center">
-      <Pagination color='primary' count={10} page={pageNumber} onChange={handleChange} />
-    </Stack>
     </>
 );
 };
