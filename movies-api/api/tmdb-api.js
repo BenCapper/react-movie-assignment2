@@ -195,3 +195,32 @@ export const getTvReviews = ( id ) => {
             throw error
         });
 }
+
+export const searchCompany= ( query ) => {
+    return fetch(
+        `https://api.themoviedb.org/3/search/company?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${query}&page=1`
+    ).then((response) => {
+        if (!response.ok) {
+            throw new Error(response.json().message);
+        }
+        return response.json();
+    })
+        .catch((error) => {
+            throw error
+        });
+}
+
+export const searchPerson = ( query ) => {
+    return fetch(
+        `https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${query}&page=1`
+    ).then((response) => {
+        if (!response.ok) {
+            throw new Error(response.json().message);
+        }
+        return response.json();
+    })
+        .catch((error) => {
+            throw error
+        });
+}
+

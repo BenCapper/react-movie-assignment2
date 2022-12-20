@@ -1,4 +1,3 @@
-import uniqid from 'uniqid';
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 import { getCompany } from '../tmdb-api';

@@ -2,7 +2,7 @@ import uniqid from 'uniqid';
 import express from 'express';
 import tvModel from './tvModel';
 import asyncHandler from 'express-async-handler';
-import { getTvReviews, getTopTv, getTrendingTv, getTv, getTvImages } from '../tmdb-api';
+import { getTvReviews, getTopTv, getTrendingTv, getTv, getTvImages, getTvSeason } from '../tmdb-api';
 
 const router = express.Router(); 
 
@@ -67,6 +67,17 @@ router.get('/:id/reviews', asyncHandler(async (req, res) => {
     const review = await getTvReviews(id);
     if (review) {
         res.status(200).json(review);
+    } else {
+        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
+    }
+}));
+
+router.get('/:id/season/:sid', asyncHandler(async (req, res) => {
+    const id = parseInt(req.params.id);
+    const sid = parseInt(req.params.sid);
+    const season = await getTvSeason(id, sid);
+    if (season) {
+        res.status(200).json(season);
     } else {
         res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
     }

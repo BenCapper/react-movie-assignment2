@@ -10,7 +10,6 @@ import { searchPerson } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../../components/spinner';
 import { Stack } from "@mui/material";
-import { Pagination } from "@mui/material";
 
 
 const styles = {
@@ -48,9 +47,9 @@ const styles = {
 
 const SearchForm = () => {
     const [alignment, setAlignment] = React.useState('company');
-    const [pageNumber, setPageNumber] = useState(1);
-    const [query1, setQuery1] = useState('-')
-    const [query2, setQuery2] = useState('-')
+    const [searched, setSearched] = useState(false);
+    const [query1, setQuery1] = useState('---');
+    const [query2, setQuery2] = useState('---');
     const [values, setValues] = React.useState({
         name: ''
       });
@@ -58,18 +57,15 @@ const SearchForm = () => {
 
 
     const { data:cdata, error:cerror, isLoading:cisLoading, isError:cisError } = useQuery(
-      ["searchCompany", {query: query1, page: pageNumber}],
+      ["searchCompany", {query: query1}],
       searchCompany
     );
 
     const { data:pdata, error:perror, isLoading:pisLoading, isError:pisError } = useQuery(
-      ["searchPerson", {query: query2, page: pageNumber}],
+      ["searchPerson", {query: query2}],
       searchPerson
     );
 
-    const handleChangePage = (event, value) => {
-      setPageNumber(value);
-    }
   
     const handleToggleChange = (event, newAlignment) => {
         console.log(newAlignment)
@@ -95,20 +91,20 @@ const SearchForm = () => {
     if (pisError){
       return <h1>{perror.message}</h1>;
     }
-
+    console.log(pdata)
   
     
     const search = () => {
       if (alignment === "person") {
-        setPageNumber(1)
-        setQuery1("-")
-        setQuery2(values.name)
+        setQuery1("-");
+        setQuery2(values.name);
+        setSearched(true);
       }
       if (alignment === "company") {  
-        console.log(values.name)
-        setPageNumber(1)
-        setQuery2("-")
-        setQuery1(values.name)
+        console.log(values.name);
+        setQuery2("-");
+        setQuery1(values.name);
+        setSearched(true);
       }
   }
 
@@ -143,7 +139,7 @@ const SearchForm = () => {
             <Button variant="contained" onClick={search}>Search</Button>
         </FormControl>
         </Card>
-        {cdata.results.length > 0 &&
+        {cdata.results.length > 0 && searched &&
         <>
         <Card sx={{ml: 2, mt: 2, mb: 2 }}>
         <Stack spacing={2}>
@@ -154,12 +150,9 @@ const SearchForm = () => {
             ))}
         </Stack>
         </Card>
-        <Stack alignItems="center">
-          <Pagination color='primary' count={10} page={pageNumber} onChange={handleChangePage} />
-        </Stack>
         </>
         }
-        {pdata.results.length > 0 &&
+        {pdata.results.length > 0 && searched &&
         <>
         <Card sx={{ml: 2, mt: 2, mb: 2 }}>
         <Stack spacing={2}>
@@ -170,9 +163,6 @@ const SearchForm = () => {
             ))}
         </Stack>
         </Card>
-        <Stack alignItems="center">
-        <Pagination color='primary' count={10} page={pageNumber} onChange={handleChangePage} />
-        </Stack>
         </>
         }
         </>
