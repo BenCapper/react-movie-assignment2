@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { auth } from "../../firebase-config";
 import { AuthContext } from '../../contexts/authContext';
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -70,8 +69,8 @@ const LoginForm = () => {
   };
 
   const register = () => {
-    let passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$/;
-    const validPassword = passwordRegEx.test(values.password);
+    let regex2 = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,15}$/; //5-15 Chars - 1 digit, 1 Upper, 1 Lower, 1 Special
+    const validPassword = regex2.test(values.password);
 
     if (validPassword) {
       context.register(values.userName, values.password);

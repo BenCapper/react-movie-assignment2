@@ -8,6 +8,7 @@ import tvModel from '../tv/tvModel';
 const router = express.Router(); // eslint-disable-line
 
 let regex = new RegExp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$");
+let regex2 = new RegExp("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{5,15}$"); //5-15 Chars - 1 digit, 1 Upper, 1 Lower, 1 Special
 
 // Get all users
 router.get('/', async (req, res) => {
@@ -21,7 +22,7 @@ router.post('/',asyncHandler( async (req, res, next) => {
       res.status(401).json({success: false, msg: 'Please pass username and password.'});
       return next();
     }
-    if (regex.test(req.body.password)) {
+    if (regex2.test(req.body.password)) {
         res.status(401).json({success: false, msg: 'BadPassword'});
         return next();
     }
