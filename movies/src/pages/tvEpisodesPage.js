@@ -18,7 +18,7 @@ const TvEpisodesPage = (props) => {
   const {tv, season} = location.state;
 
   const { data, error, isLoading, isError } = useQuery(
-    ["episodes", {id: tv.id, sid: season.season_number}],
+    ["eps", {id: tv.id, sid: season.season_number}],
     getTvSeason
   );
 

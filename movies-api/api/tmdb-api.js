@@ -196,6 +196,21 @@ export const getTvReviews = ( id ) => {
         });
 }
 
+
+export const getTvSeason = ( id, sid ) => {
+    return fetch(
+        `https://api.themoviedb.org/3/tv/${id}/season/${sid}?api_key=${process.env.REACT_APP_TMDB_KEY}`
+    ).then((response) => {
+        if (!response.ok) {
+            throw new Error(response.json().message);
+        }
+        return response.json();
+    })
+        .catch((error) => {
+            throw error
+        });
+}
+
 export const searchCompany= ( query ) => {
     return fetch(
         `https://api.themoviedb.org/3/search/company?api_key=${process.env.REACT_APP_TMDB_KEY}&query=${query}&page=1`
