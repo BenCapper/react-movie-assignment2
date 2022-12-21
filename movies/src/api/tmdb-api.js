@@ -304,9 +304,9 @@ export const searchPerson = (args) => {
  });
 };
 
-export const getUserFavourites = (user) => {
+export const getUserFavouriteMovies = (user) => {
     return fetch(
-        `/api/users/${user}/favourites`, {
+        `/api/users/${user}/favourites/movies`, {
            headers: {
                'Authorization': window.localStorage.getItem('token')
            }
@@ -318,15 +318,46 @@ export const getUserFavourites = (user) => {
    });
   };
 
-export const newFavourite = ( user, movie ) => {
+export const newFavouriteMovie = ( user, movie ) => {
     return fetch(
-      `/api/users/${user}/favourites`, {
+      `/api/users/${user}/favourites/movies`, {
            headers: {
                'Authorization': window.localStorage.getItem('token'),
                'Content-Type': 'application/json'
            },
            method: 'post',
            body: JSON.stringify({ id: movie.id, title: movie.title })
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };
+
+  export const getUserFavouriteTv = (user) => {
+    return fetch(
+        `/api/users/${user}/favourites/tv`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token')
+           }
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };
+
+export const newFavouriteTv = ( user, tv ) => {
+    return fetch(
+      `/api/users/${user}/favourites/tv`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token'),
+               'Content-Type': 'application/json'
+           },
+           method: 'post',
+           body: JSON.stringify({ id: tv.id, name: tv.name })
        }
    ).then(res => {
        return res.json();

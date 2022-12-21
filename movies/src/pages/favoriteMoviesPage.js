@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import PageTemplate from "../components/templateMovieListPage";
-import { MoviesContext } from "../contexts/moviesContext";
 import { useQuery } from "react-query";
-import { getMovie, getUserFavourites } from "../api/tmdb-api";
+import { getUserFavouriteMovies } from "../api/tmdb-api";
 import Spinner from '../components/spinner';
 import RemoveFromFavorites from "../components/cardIcons/removeFromFavorites";
 import WriteReview from "../components/cardIcons/writeReview";
@@ -20,7 +19,7 @@ const FavoriteMoviesPage = () => {
     data,
   } = useQuery({
     queryKey: ['userFave'],
-    queryFn: () => getUserFavourites(context.userName),
+    queryFn: () => getUserFavouriteMovies(context.userName),
   })
 
   if (isLoading) {

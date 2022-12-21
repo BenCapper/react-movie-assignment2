@@ -8,8 +8,8 @@ const AddToFavoritesIcon = ({ movie }) => {
 
   const handleAddToFavorites = (e) => {
     e.preventDefault();
-    context.addToFavorites(movie);
-    context.addFaves(movie);
+    //context.addToFavorites(movie);
+    context.addFaveMovie(movie);
   };
 
   return (

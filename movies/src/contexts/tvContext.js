@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useReducer, useContext, useState } from "react";
 import { AuthContext } from '../contexts/authContext';
-import { getAllTv } from "../api/tmdb-api";
+import { getAllTv, newFavouriteTv } from "../api/tmdb-api";
 
 export const TvContext = createContext(null);
 
@@ -26,15 +26,13 @@ const TvContextProvider = (props) => {
     });
   },[context.isAuthenticated]); 
 
-  const addToFavorites = (tv) => {
-    let newFavorites = [];
-    if (!favorites.includes(tv.id)){
-      newFavorites = [...favorites, tv.id];
-    }
-    else{
-      newFavorites = [...favorites];
-    }
-    setFavorites(newFavorites)
+  const addFaveTv = (tv) => {
+    const username = context.userName;
+    const id = tv.id;
+    const name = tv.name;
+    const fave = { id: id, name: name};
+    console.log(username, fave);
+    newFavouriteTv(username, fave);
   };
 
   // We will use this function in a later section
@@ -66,7 +64,7 @@ const TvContextProvider = (props) => {
         tv: state.tv,
         favorites,
         mustWatch,
-        addToFavorites,
+        addFaveTv,
         removeFromFavorites,
         addReview,
         addToMustWatch
