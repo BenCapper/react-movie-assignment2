@@ -304,9 +304,21 @@ export const searchPerson = (args) => {
  });
 };
 
+export const getUserFavourites = (user) => {
+    return fetch(
+        `/api/users/${user}/favourites`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token')
+           }
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };
 
 export const newFavourite = ( user, movie ) => {
-    console.log(user, movie);
     return fetch(
       `/api/users/${user}/favourites`, {
            headers: {
