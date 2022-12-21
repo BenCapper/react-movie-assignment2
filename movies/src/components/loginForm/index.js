@@ -12,6 +12,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { analytics } from "../../firebase-config";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 
 const styles = {
@@ -48,6 +50,8 @@ const LoginForm = () => {
       password: '',
       showPassword: false,
     });
+
+  logEvent(analytics, 'notification_received');
 
   const handleChange = (prop) => (event) => {
       setValues({ ...values, [prop]: event.target.value });
