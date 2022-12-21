@@ -23,25 +23,6 @@ router.get('/:id', asyncHandler(async (req, res) => {
     }
 }));
 
-router.post('/:id/reviews', (req, res) => {
-    const id = parseInt(req.params.id);
-
-    if (movieReviews.id == id) {
-        req.body.author = "Ben Capper";
-        req.body.content = "test"
-        req.body.created_at = new Date();
-        req.body.updated_at = new Date();
-        req.body.id = uniqid();
-        movieReviews.results.push(req.body); //push the new review onto the list
-        res.status(201).json(req.body);
-    } else {
-        res.status(404).json({
-            message: 'The resource you requested could not be found.',
-            status_code: 404
-        });
-    }
-});
-
 router.get('/tmdb/upcoming', asyncHandler( async(req, res) => {
     const upcomingMovies = await getUpcomingMovies();
     if (upcomingMovies) {
@@ -89,5 +70,17 @@ router.get('/:id/reviews', asyncHandler(async (req, res) => {
         res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
     }
 }));
+
+router.post('/:userName/favourites/movies', asyncHandler(async (req, res) => {
+    const newFavourite = req.body.id;
+    const userName = req.params.userName;
+    const movie = await movieModel.findByMovieDBId(newFavourite);
+    const user = await User.findByUserName(userName);
+    !user.favouriteMovies.includes(movie._id) ? await user.favouriteMovies.push(movie._id) : 
+        res.status(401).json({code: 401,msg: 'Already in Favourite Movies'})
+    await user.save(); 
+    res.status(201).json(user); 
+  }));
+
 
 export default router;

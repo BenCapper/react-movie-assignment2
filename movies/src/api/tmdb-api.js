@@ -365,3 +365,20 @@ export const newFavouriteTv = ( user, tv ) => {
        console.log(error);
    });
   };
+
+export const newMovieReview = ( id, review ) => {
+  return fetch(
+    `/api/movies/${id}/reviews`, {
+         headers: {
+             'Authorization': window.localStorage.getItem('token'),
+             'Content-Type': 'application/json'
+         },
+         method: 'post',
+         body: JSON.stringify({ content: review.content, author: review.author,  })
+     }
+ ).then(res => {
+     return res.json();
+ }).catch((error) => {
+     console.log(error);
+ });
+};

@@ -18,7 +18,7 @@ const FavoriteMoviesPage = () => {
     error,
     data,
   } = useQuery({
-    queryKey: ['userFave'],
+    queryKey: ['userFaveMov'],
     queryFn: () => getUserFavouriteMovies(context.userName),
   })
 

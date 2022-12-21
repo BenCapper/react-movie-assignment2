@@ -18,7 +18,7 @@ const TvFavoritePage = () => {
     error,
     data,
   } = useQuery({
-    queryKey: ['userFave'],
+    queryKey: ['userFaveTv'],
     queryFn: () => getUserFavouriteTv(context.userName),
   })
 

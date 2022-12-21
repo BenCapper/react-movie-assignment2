@@ -23,24 +23,6 @@ router.get('/:id', asyncHandler(async (req, res) => {
     }
 }));
 
-router.post('/:id/reviews', (req, res) => {
-    const id = parseInt(req.params.id);
-
-    if (tvReviews.id == id) {
-        req.body.author = "Ben Capper";
-        req.body.content = "test"
-        req.body.created_at = new Date();
-        req.body.updated_at = new Date();
-        req.body.id = uniqid();
-        tvReviews.results.push(req.body); //push the new review onto the list
-        res.status(201).json(req.body);
-    } else {
-        res.status(404).json({
-            message: 'The resource you requested could not be found.',
-            status_code: 404
-        });
-    }
-});
 
 router.get('/tmdb/top', asyncHandler( async(req, res) => {
      const topTv = await getTopTv();
