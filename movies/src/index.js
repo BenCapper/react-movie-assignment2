@@ -46,6 +46,7 @@ const App = () => {
         <MoviesContextProvider>
           <TvContextProvider>
             <Routes>
+            <Route element={<ProtectedRoutes />}>
               <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
               <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
               <Route path="/movies/upcoming" element={<UpcomingPage />} />
@@ -54,7 +55,7 @@ const App = () => {
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
 
-              <Route element={<ProtectedRoutes />}>
+              
               <Route path="/tv" element={ <TvHomePage /> } />
               <Route path="/tv/:id" element={ <TvDetailsPage /> } />
               <Route path="/tv/reviews/:id" element={ <TvReviewsPage /> } />
@@ -64,11 +65,12 @@ const App = () => {
               <Route path="/tv/top" element={<TvTopPage />} />
               <Route path="/tv/mustwatch" element={<MustWatchTvPage />} />
               <Route path="/tv/:id/season/:sid" element={<TvEpisodesPage />} />
-              </Route>
-
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/" element={<LoginPage />} />
+              
               <Route path="/movies" element={<HomePage />} />
+              <Route path="/search" element={<SearchPage />} />
+              
+              </Route>
+              <Route path="/" element={<LoginPage />} />
               <Route path="*" element={ <Navigate to="/" /> } />
             </Routes>
           </TvContextProvider>

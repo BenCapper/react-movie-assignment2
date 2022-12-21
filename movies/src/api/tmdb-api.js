@@ -303,3 +303,22 @@ export const searchPerson = (args) => {
      console.log(error);
  });
 };
+
+
+export const newFavourite = ( user, movie ) => {
+    console.log(user, movie);
+    return fetch(
+      `/api/users/${user}/favourites`, {
+           headers: {
+               'Authorization': window.localStorage.getItem('token'),
+               'Content-Type': 'application/json'
+           },
+           method: 'post',
+           body: JSON.stringify({ id: movie.id, title: movie.title })
+       }
+   ).then(res => {
+       return res.json();
+   }).catch((error) => {
+       console.log(error);
+   });
+  };

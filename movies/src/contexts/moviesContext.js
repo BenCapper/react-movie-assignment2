@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useReducer, useContext, useState } from "react";
 import { AuthContext } from '../contexts/authContext';
 import { getMovies } from "../api/tmdb-api";
+import { newFavourite } from "../api/tmdb-api";
 
 export const MoviesContext = createContext(null);
 
@@ -34,7 +35,17 @@ const MoviesContextProvider = (props) => {
     else{
       newFavorites = [...favorites];
     }
-    setFavorites(newFavorites)
+    setFavorites(newFavorites);
+  };
+
+  const addFaves = (movie) => {
+    const username = context.userName;
+    const id = movie.id;
+    const title = movie.title;
+    const fave = { id: id, title: title};
+    console.log(username, fave);
+    newFavourite(username, fave);
+    
   };
 
   // We will use this function in a later section
@@ -67,6 +78,7 @@ const MoviesContextProvider = (props) => {
         favorites,
         mustWatch,
         addToFavorites,
+        addFaves,
         removeFromFavorites,
         addReview,
         addToMustWatch
