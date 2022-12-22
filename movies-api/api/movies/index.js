@@ -71,16 +71,6 @@ router.get('/:id/reviews', asyncHandler(async (req, res) => {
     }
 }));
 
-router.post('/:userName/favourites/movies', asyncHandler(async (req, res) => {
-    const newFavourite = req.body.id;
-    const userName = req.params.userName;
-    const movie = await movieModel.findByMovieDBId(newFavourite);
-    const user = await User.findByUserName(userName);
-    !user.favouriteMovies.includes(movie._id) ? await user.favouriteMovies.push(movie._id) : 
-        res.status(401).json({code: 401,msg: 'Already in Favourite Movies'})
-    await user.save(); 
-    res.status(201).json(user); 
-  }));
 
 
 export default router;
