@@ -8,7 +8,8 @@ A bullet-point list of the ADDITIONAL features you have implemented in the API *
 
  + Swagger API Yaml File
  + Firebase Analytics Implemented
- + Full API integration
+ + Full API Integration
+ + Extra Password Validation
 
 
 ## API Configuration
@@ -43,9 +44,11 @@ All routes except login are protected. The following API endpoints are passport 
 
 ## Integrating with React App
 
-All calls to the TMDB API now go through the localhost api. Favourites are now saved to the user objects and retrieved via an API call.
+- All calls to the TMDB API now go through the localhost api.
+- User objects contain lists of both favourite movies and favourite tv which are retrieved via api calls. 
 
 ## Independent learning (if relevant)
 
 - Swagger yaml file layout
-- Implement firebase analytics  
+- Implement firebase analytics
+- More complex password validation  
