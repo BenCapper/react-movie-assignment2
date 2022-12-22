@@ -2,16 +2,16 @@ import React, { useContext } from "react";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AuthContext } from "../../contexts/authContext";
-import { deleteUserFavouriteMovies } from "../../api/tmdb-api";
+import { deleteUserFavouriteMovies, getUserFavouriteMovies } from "../../api/tmdb-api";
+import { MoviesContext } from "../../contexts/moviesContext";
 
 const RemoveFromFavoritesIcon = ({ movie }) => {
   const contextAuth = useContext(AuthContext);
+  const context = useContext(MoviesContext);
 
-  const handleRemoveFromFavorites = (e) => {
-    const user = contextAuth.userName;
+  const handleRemoveFromFavorites = async (e) => {
     e.preventDefault();
-    //context.removeFromFavorites(movie);
-    deleteUserFavouriteMovies(user, movie);
+    context.delFave(movie);
   };
   return (
     <IconButton

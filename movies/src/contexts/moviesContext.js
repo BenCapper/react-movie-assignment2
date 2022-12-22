@@ -1,6 +1,8 @@
 import React, { createContext, useEffect, useReducer, useContext, useState } from "react";
 import { AuthContext } from '../contexts/authContext';
 import { getMovies } from "../api/tmdb-api";
+import { newFavouriteMovie, getUserFavouriteMovies, deleteUserFavouriteMovies } from "../api/tmdb-api";
+
 
 export const MoviesContext = createContext(null);
 
@@ -15,6 +17,7 @@ const reducer = (state, action) => {
 
 const MoviesContextProvider = (props) => {
   const context = useContext(AuthContext);
+  const user = context.userName;
   const [favorites, setFavorites] = useState( [] );
   const [mustWatch, setMustWatch] = useState( [] );
   const [myReviews, setMyReviews] = useState( {} );
@@ -43,6 +46,21 @@ const MoviesContextProvider = (props) => {
     console.log(newMustWatch)
   };
 
+  const addToFave = async (movie) => {
+    const id = movie.id;
+    await newFavouriteMovie(user, id);
+    const faves = await getUserFavouriteMovies(user);
+    console.log(faves);
+    setFavorites(faves);
+  }
+
+  const delFave = async (movie) => {
+    await deleteUserFavouriteMovies(user, movie);
+    const faves = await getUserFavouriteMovies(user);
+    console.log(faves);
+    setFavorites(faves);
+  }
+
   return (
     <MoviesContext.Provider
       value={{
@@ -50,7 +68,10 @@ const MoviesContextProvider = (props) => {
         favorites,
         mustWatch,
         addReview,
-        addToMustWatch
+        addToMustWatch,
+        setFavorites,
+        addToFave,
+        delFave
       }}
     >
       {props.children}

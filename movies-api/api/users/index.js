@@ -75,7 +75,7 @@ router.post('/:userName/favourites/movies/delete', asyncHandler(async (req, res)
   const userName = req.params.userName;
   const user = await User.findByUserName(userName);
   const movie = await movieModel.findByMovieDBId(newFavourite);
-  const index = user.favouriteMovies.indexOf(movie);
+  const index =  await user.favouriteMovies.indexOf(movie);
   await user.favouriteMovies.splice(index-1 , 1);
   await user.save(); 
   res.status(201).json(user); 

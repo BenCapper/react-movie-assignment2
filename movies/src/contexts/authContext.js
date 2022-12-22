@@ -1,9 +1,11 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useContext } from "react";
 import { login, signup } from "../api/tmdb-api";
+import { MoviesContext } from "./moviesContext";
 
 export const AuthContext = createContext(null);
 
 const AuthContextProvider = (props) => {
+  const context = useContext(MoviesContext);
   const existingToken = localStorage.getItem("token");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authToken, setAuthToken] = useState(existingToken);
@@ -34,6 +36,7 @@ const AuthContextProvider = (props) => {
     setTimeout(() => setIsAuthenticated(false), 100);
   }
 
+
   return (
     <AuthContext.Provider
       value={{
@@ -42,6 +45,7 @@ const AuthContextProvider = (props) => {
         register,
         signout,
         userName
+
       }}
     >
       {props.children}
