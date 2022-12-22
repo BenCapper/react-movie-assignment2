@@ -75,8 +75,8 @@ router.post('/:userName/favourites/movies/delete', asyncHandler(async (req, res)
   const userName = req.params.userName;
   const user = await User.findByUserName(userName);
   const movie = await movieModel.findByMovieDBId(newFavourite);
-  const index = user.favouriteMovies.indexOf(newFavourite);
-  await user.favouriteMovies.splice(index,1);
+  const index = user.favouriteMovies.indexOf(movie);
+  await user.favouriteMovies.splice(index-1 , 1);
   await user.save(); 
   res.status(201).json(user); 
 }));
@@ -104,7 +104,7 @@ router.post('/:userName/favourites/tv/delete', asyncHandler(async (req, res) => 
   const userName = req.params.userName;
   const user = await User.findByUserName(userName);
   const index = user.favouriteTv.indexOf(newFavourite);
-  await user.favouriteTv.splice(index,1);
+  await user.favouriteTv.splice(index-1,1);
   await user.save(); 
   res.status(201).json(user); 
 }));
