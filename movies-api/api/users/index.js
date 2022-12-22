@@ -65,10 +65,22 @@ router.post('/:userName/favourites/movies', asyncHandler(async (req, res) => {
     const movie = await movieModel.findByMovieDBId(newFavourite);
     const user = await User.findByUserName(userName);
     !user.favouriteMovies.includes(movie._id) ? await user.favouriteMovies.push(movie._id) : 
-        res.status(401).json({code: 401,msg: 'Already in Favourite Movies'})
+        res.status(401).json({code: 401,msg: movie})
     await user.save(); 
     res.status(201).json(user); 
   }));
+
+router.post('/:userName/favourites/movies/delete', asyncHandler(async (req, res) => {
+  const newFavourite = req.body.id;
+  const userName = req.params.userName;
+  const user = await User.findByUserName(userName);
+  const movie = await movieModel.findByMovieDBId(newFavourite);
+  const index = user.favouriteMovies.indexOf(newFavourite);
+  await user.favouriteMovies.splice(index,1);
+  await user.save(); 
+  res.status(201).json(user); 
+}));
+
 
 router.get('/:userName/favourites/movies', asyncHandler( async (req, res) => {
   const userName = req.params.userName;
@@ -83,6 +95,16 @@ router.post('/:userName/favourites/tv', asyncHandler(async (req, res) => {
   const user = await User.findByUserName(userName);
   !user.favouriteTv.includes(tv._id) ? await user.favouriteTv.push(tv._id) : 
       res.status(401).json({code: 401,msg: 'Already in Favourite Tv'})
+  await user.save(); 
+  res.status(201).json(user); 
+}));
+
+router.post('/:userName/favourites/tv/delete', asyncHandler(async (req, res) => {
+  const newFavourite = req.body.id;
+  const userName = req.params.userName;
+  const user = await User.findByUserName(userName);
+  const index = user.favouriteTv.indexOf(newFavourite);
+  await user.favouriteTv.splice(index,1);
   await user.save(); 
   res.status(201).json(user); 
 }));

@@ -38,7 +38,6 @@ Swagger Yaml file is provided in the root folder.
 All routes except login are protected. The following API endpoints are passport authenticated:
 
  - Movies
- - Users
  - Tv
  - Company
 

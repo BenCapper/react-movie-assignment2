@@ -35,7 +35,7 @@ app.use('/api/tv', passport.authenticate('jwt', {session: false}), tvRouter);
 app.use('/api/company', passport.authenticate('jwt', {session: false}), companyRouter);
 app.use('/api/search',  searchRouter);
 app.use('/api/genres', genresRouter);
-app.use('/api/users', passport.authenticate('jwt', {session: false}), usersRouter);
+app.use('/api/users', usersRouter);
 
 app.use(errHandler);
 

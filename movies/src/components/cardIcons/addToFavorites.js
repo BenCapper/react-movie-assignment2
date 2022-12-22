@@ -1,15 +1,17 @@
 import React, { useContext } from "react";
-import { MoviesContext } from "../../contexts/moviesContext";
+import { AuthContext } from "../../contexts/authContext";
 import IconButton from "@mui/material/IconButton";
+import { newFavouriteMovie } from "../../api/tmdb-api";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const AddToFavoritesIcon = ({ movie }) => {
-  const context = useContext(MoviesContext);
+  const contextAuth = useContext(AuthContext);
 
   const handleAddToFavorites = (e) => {
     e.preventDefault();
-    //context.addToFavorites(movie);
-    context.addFaveMovie(movie);
+    const username = contextAuth.userName;
+    const id = movie.id;
+    newFavouriteMovie(username, id);
   };
 
   return (

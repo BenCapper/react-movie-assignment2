@@ -2,14 +2,18 @@ import React, { useContext } from "react";
 import { TvContext } from "../../contexts/tvContext";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { AuthContext } from "../../contexts/authContext";
+import { newFavouriteTv } from "../../api/tmdb-api";
+
 
 const AddToFavoritesIcon = ({ tv }) => {
-  const context = useContext(TvContext);
+  const contextAuth = useContext(AuthContext);
 
   const handleAddToFavorites = (e) => {
     e.preventDefault();
-    //context.addToFavorites(tv);
-    context.addFaveTv(tv);
+    const username = contextAuth.userName;
+    const id = tv.id;
+    newFavouriteTv(username, id);
   };
 
   return (
