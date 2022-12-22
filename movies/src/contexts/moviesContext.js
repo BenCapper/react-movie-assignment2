@@ -50,8 +50,8 @@ const MoviesContextProvider = (props) => {
     const id = movie.id;
     await newFavouriteMovie(user, id);
     const faves = await getUserFavouriteMovies(user);
-    console.log(faves);
     setFavorites(faves);
+    //dispatch(state, faves);
   }
 
   const delFave = async (movie) => {
@@ -59,6 +59,7 @@ const MoviesContextProvider = (props) => {
     const faves = await getUserFavouriteMovies(user);
     console.log(faves);
     setFavorites(faves);
+    //dispatch(state, faves);
   }
 
   return (
