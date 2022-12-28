@@ -8,7 +8,7 @@ A bullet-point list of the ADDITIONAL features you have implemented in the API *
 
  + Swagger API Yaml File
  + Firebase Analytics Implemented
- + Full API Integration
+ + Full API Integration Except Must Watch
  + Extra Password Validation
 
 
